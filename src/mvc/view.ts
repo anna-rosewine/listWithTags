@@ -1,5 +1,7 @@
 import {FolderInterface} from "./folder.interface";
-import {ItemInterface} from "./intem.interface";
+import {ItemInterface} from "./item.interface";
+import {Folder} from "./folder.type";
+import {Item} from "./item.type";
 
 export class View {
     public foldersColumn: HTMLDivElement;
@@ -30,7 +32,7 @@ export class View {
         this.columns.append(this.descriptionColumn)
     }
 
-    generateFolder(folder: FolderInterface): HTMLElement{
+    generateFolder(folder: Folder): HTMLElement{
         let folderItem = document.createElement('div');
         folderItem.classList.add('folderItem');
         folderItem.setAttribute('data-id', folder.id);
@@ -43,14 +45,14 @@ export class View {
 
 
 
-    generateFoldersColumn(folders: FolderInterface[]){
+    generateFoldersColumn(folders: Folder[]){
         folders.forEach((item) => {
             let folder = this.generateFolder(item);
             this.foldersColumn.append(folder);
         })
     }
 
-    generateItemsColumn(items: ItemInterface[]){
+    generateItemsColumn(items: Item[]){
 
     }
 

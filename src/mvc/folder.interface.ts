@@ -1,4 +1,4 @@
-import {ItemInterface} from "./intem.interface";
+import {ItemInterface} from "./item.interface";
 
 export interface FolderInterface {
     id: string,

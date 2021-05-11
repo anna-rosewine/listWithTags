@@ -1,8 +1,8 @@
-import {FolderInterface} from "./folder.interface";
-import {ItemInterface} from "./intem.interface";
+
+import {Folder} from "./folder.type";
 
 export class Model {
-    private foldersArr: FolderInterface[];
+    private foldersArr: Folder[];
     constructor(){
         console.log('model is ready');
         this.foldersArr = [
