@@ -1,5 +1,3 @@
-import {FolderInterface} from "./folder.interface";
-import {ItemInterface} from "./item.interface";
 import {Folder} from "./folder.type";
 import {Item} from "./item.type";
 
@@ -39,10 +37,20 @@ export class View {
         let innerTitle = document.createElement('p');
         innerTitle.classList.add('folderText')
         innerTitle.innerText = folder.title;
-        folderItem.append(innerTitle)
+        folderItem.append(innerTitle);
         return folderItem;
     }
 
+    generateItem(item: Item): HTMLElement{
+        let newItem = document.createElement('div');
+        newItem.classList.add('item');
+        newItem.setAttribute('data-id', item.id);
+        let innerTitle = document.createElement('p');
+        innerTitle.classList.add('itemText')
+        innerTitle.innerText = item.title;
+        newItem.append(innerTitle);
+        return newItem;
+    }
 
 
     generateFoldersColumn(folders: Folder[]){
@@ -53,8 +61,20 @@ export class View {
     }
 
     generateItemsColumn(items: Item[]){
-
+        this.itemsColumn.innerHTML = "";
+        items.forEach((item) => {
+            let createdItem = this.generateItem(item);
+            this.itemsColumn.append(createdItem);
+        })
     }
 
-
+    addFolderListener(callback: Function){
+        this.foldersColumn.addEventListener('click', (e) => {
+            let target = (e.target as HTMLElement).closest('div');
+            if(target){
+                console.log(target.dataset.id);
+                callback(target.dataset.id);
+            }
+        })
+    }
 }
