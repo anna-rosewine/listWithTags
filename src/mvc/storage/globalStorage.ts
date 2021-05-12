@@ -74,7 +74,7 @@ let jsItemsArr: Item[] = [
     {
         id: uniqid.process(),
         title: 'array methods',
-        description: 'link to js array methods',
+        description: 'link to js array methods https://developer.mozilla.org/ru/docs/We-b-/JavaScript/Reference/Global_Objects/Array',
         isOpen: false,
         tags: ['javaScript', 'array']
     },
@@ -103,21 +103,21 @@ let jsItemsArr: Item[] = [
  let angularItem1: Item = {
     id: uniqid.process(),
     title: 'ngModel',
-    description: 'link to documentation',
+    description: 'link to documentation https://angular.io/api/forms/NgModel',
     isOpen: false,
     tags: ['angular', 'ngModel', 'forms']
 }
  let angularItem2: Item = {
     id: uniqid.process(),
     title: 'components',
-    description: 'link to documentation',
+    description: 'link to documentation https://angular.io/api/core/Component',
     isOpen: false,
     tags: ['angular', 'components']
 }
  let angularItem3: Item = {
     id: uniqid.process(),
     title: 'NgRx',
-    description: 'link to documentation',
+    description: 'link to documentation https://ngrx.io/guide/store',
     isOpen: false,
     tags: ['angular', 'NgRx']
 }

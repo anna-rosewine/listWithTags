@@ -3,5 +3,6 @@ export type Item = {
     title: string,
     isOpen: boolean,
     description: string,
-    tags: String[]
+    tags: String[],
+    folderId?: string
 }

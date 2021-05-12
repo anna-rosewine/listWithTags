@@ -7,6 +7,7 @@ export class View {
     public descriptionColumn: HTMLDivElement;
     public columns: HTMLElement;
     private mainContainer: HTMLElement | null;
+    private currentFolderId: string;
     constructor(){
         console.log('view is ready');
         this.mainContainer = document.getElementById('mainContainer');
@@ -28,6 +29,8 @@ export class View {
         this.columns.append(this.foldersColumn)
         this.columns.append(this.itemsColumn)
         this.columns.append(this.descriptionColumn)
+
+        this.currentFolderId = ""
     }
 
     generateFolder(folder: Folder): HTMLElement{
@@ -49,6 +52,7 @@ export class View {
         innerTitle.classList.add('itemText')
         innerTitle.innerText = item.title;
         newItem.append(innerTitle);
+        this.descriptionColumn.innerHTML = ""
         return newItem;
     }
 
@@ -68,12 +72,36 @@ export class View {
         })
     }
 
+    generateDescriptionColumn(description: string){
+        this.descriptionColumn.innerHTML = "";
+        let descDiv = document.createElement('div');
+        descDiv.classList.add('descriptionItem');
+        let innerTitle = document.createElement('p');
+        innerTitle.classList.add('descText')
+        innerTitle.innerText =description;
+        descDiv.append(innerTitle);
+        this.descriptionColumn.append(descDiv)
+        return descDiv;
+    }
+
     addFolderListener(callback: Function){
         this.foldersColumn.addEventListener('click', (e) => {
             let target = (e.target as HTMLElement).closest('div');
+            if(target)
+            if(target.dataset.id){
+                this.currentFolderId = target.dataset.id
+                console.log(this.currentFolderId);
+                callback(this.currentFolderId);
+            }
+        })
+    }
+
+    addItemListener(callback: Function) {
+        this.itemsColumn.addEventListener('click', (e) => {
+            let target = (e.target as HTMLElement).closest('div');
             if(target){
                 console.log(target.dataset.id);
-                callback(target.dataset.id);
+                callback(this.currentFolderId, target.dataset.id);
             }
         })
     }
