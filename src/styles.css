@@ -27,6 +27,7 @@ body {
     box-shadow: 0 0 25px  rgb(92, 43, 165);
     box-shadow:  0 0  20px  rgb(92, 43, 165);
     box-shadow: 0 0  15px rgb(92, 43, 165);
+    cursor: pointer;
 }
 
 .folderItem:hover {
@@ -50,6 +51,12 @@ body {
     margin: 0 auto 20px;
     box-shadow: 10px 10px 25px #00000008;
     animation: appear 300ms ease-out forwards;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.item:hover {
+    transform: scale(1.12);
 }
 
 .itemText {
@@ -59,11 +66,30 @@ body {
 }
 
 .descriptionItem {
+    display: flex;
+    flex-wrap: wrap;
     padding: 30px;
     background-color: #ffffff;
     border-radius: 10px;
     margin-bottom: 20px;
     animation: appear2 400ms ease-out forwards;
+}
+
+.descText {
+    width: 100%;
+}
+
+.tag {
+    background-color: #efe3ff;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+
+.tag p {
+    font-size: 13px;
+    color: #5c2ba6;
+    margin: 0;
 }
 
 @keyframes appear {

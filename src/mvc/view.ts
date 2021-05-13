@@ -72,13 +72,27 @@ export class View {
         })
     }
 
-    generateDescriptionColumn(description: string){
+    generateDescriptionColumn(description: string, tags: string[]){
         this.descriptionColumn.innerHTML = "";
         let descDiv = document.createElement('div');
         descDiv.classList.add('descriptionItem');
+        let tagDivs: HTMLDivElement[] = [];
+         tags.forEach((tagTitle) => {
+            let tagDiv = document.createElement('div');
+            tagDiv.classList.add('tag');
+            let title = document.createElement('p');
+            title.innerText = tagTitle;
+            tagDiv.append(title);
+            tagDivs.push(tagDiv);
+        })
+
+
         let innerTitle = document.createElement('p');
         innerTitle.classList.add('descText')
         innerTitle.innerText =description;
+        tagDivs.forEach((tag) => {
+            descDiv.append(tag)
+        })
         descDiv.append(innerTitle);
         this.descriptionColumn.append(descDiv)
         return descDiv;

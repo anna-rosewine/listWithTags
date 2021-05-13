@@ -150,14 +150,12 @@ export let nestJsFolder: Folder = {
     isOpen:false,
     items: nestJSItems
 };
-
 export let designFolder: Folder = {
     id: uniqid.process(),
     title: "Design",
     isOpen:false,
     items: designItems
 };
-
 export let jsFolder: Folder = {
     id: uniqid.process(),
     title: "JavaScript",

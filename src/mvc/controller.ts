@@ -27,7 +27,7 @@ export class Controller {
         if(folder){
             let item = folder.items.getById(itemId);
             if(item){
-                this.view.generateDescriptionColumn(item.description)
+                this.view.generateDescriptionColumn(item.description, item.tags)
                 console.log(item.description)
             } else {
                 throw new Error('didnt find item with such id')
