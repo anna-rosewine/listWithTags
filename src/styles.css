@@ -24,11 +24,14 @@ body {
     width: 50%;
     margin: 0 auto 20px;
     transition: all 0.3s ease;
-    box-shadow: 5px 5px 25px #5c2ba650;
+    box-shadow: 0 0 25px  rgb(92, 43, 165);
+    box-shadow:  0 0  20px  rgb(92, 43, 165);
+    box-shadow: 0 0  15px rgb(92, 43, 165);
 }
 
 .folderItem:hover {
-    box-shadow: 5px 5px 25px rgba(135, 82, 222, 0.31);
+    box-shadow: 0 0 25px rgb(112, 44, 229);
+    transform: scale(1.015);
 }
 
 .folderText {
