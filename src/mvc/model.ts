@@ -1,7 +1,9 @@
-import {Folder} from "./folder.type";
+import {Folder} from "./models/folder.type";
 import {FoldersClass} from "./storage/folderClass";
 import {ItemsClass} from "./storage/itemsClass";
 import {angularFolder, designFolder, jsFolder, nestJsFolder} from "./storage/globalStorage";
+import {Item} from "./models/interfaces/item.interface";
+import {Items} from "./models/interfaces";
 
 export class Model {
     private foldersArr: FoldersClass;
@@ -17,6 +19,10 @@ export class Model {
 
     get folders() {
         return this.foldersArr;
+    }
+
+    addItem(item: Omit<Partial<Items>, "id">){
+
     }
 
 

@@ -1,5 +1,5 @@
 import {BasicStorage} from "./basicStorage";
-import {Item} from "../item.type";
+import {Item} from "../models/interfaces/item.interface";
 
 export class ItemsClass extends BasicStorage<Item> {
 

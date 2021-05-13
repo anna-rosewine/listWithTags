@@ -1,6 +1,6 @@
-import {Folder} from "../folder.type";
+import {Folder} from "../models/folder.type";
 import {BasicStorage} from "./basicStorage";
-import {Item} from "../item.type";
+import {Item} from "../models/interfaces/item.interface";
 
 export class FoldersClass extends BasicStorage<Folder>{
     constructor() {

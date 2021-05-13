@@ -1,4 +1,4 @@
-import {BasicStorageInterface} from "./basicStorageInterface";
+import {BasicStorageInterface} from "../models/basicStorageInterface";
 
 export abstract class BasicStorage<T extends { id: string }>
     implements BasicStorageInterface <T> {

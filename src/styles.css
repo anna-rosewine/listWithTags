@@ -5,6 +5,57 @@ body {
     background-color: #13131c;
 }
 
+.formContainer {
+    width: 100%;
+    background-color: #433258;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 10px;
+    margin-bottom: 30px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+input, select {
+    font-weight: bold;
+    width: 200px;
+    margin: 0 35px 0 ;
+    height: 35px !important;
+    padding: 6px 15px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    background: #ffffff;
+    color: #525253;
+    font-size: 14px;
+}
+
+button {
+    font-weight: bold;
+    width: 230px;
+    margin: 0 35px 0;
+    height: 45px;
+    padding: 6px 15px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    background: #bb9bee;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+}
+
+button:hover{
+    transform: scale(1.05);
+}
+
+.optionalFormPart {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+}
+
 .columns {
     display: flex;
     justify-content: space-around;
@@ -12,7 +63,6 @@ body {
 
 .columnItem {
     margin-top: 20px;
-    /*border-right: 1px solid #e0e0e0;*/
     width: 30%;
     padding: 30px;
 }
@@ -77,6 +127,7 @@ body {
 
 .descText {
     width: 100%;
+    font-weight: 300;
 }
 
 .tag {
