@@ -3,6 +3,10 @@ import {Item} from "./models/interfaces/item.interface";
 import {FoldersCategories} from "./models/folders.enum";
 import {AngularSource} from "./models/angularSource.enum";
 import {DesignType} from "./models/designType.enum";
+import {ItemJS} from "./models/interfaces/itemJS.interface";
+import {ItemNestJS} from "./models/interfaces/itemNestJS.interface";
+import {ItemAngular} from "./models/interfaces/itemAngular.interface";
+import {ItemDesign} from "./models/interfaces/itemDesign.interface";
 
 export class View {
     public foldersColumn: HTMLDivElement;
@@ -11,10 +15,10 @@ export class View {
     public columns: HTMLElement;
     private mainContainer: HTMLElement | null;
     private currentFolderId: string;
-    private formContainer: HTMLElement;
-    private formCategoriesDiv: HTMLDivElement;
-    private formCategoriesSelect: HTMLSelectElement;
-    private formCategoriesOptionAngular: HTMLOptionElement;
+    private readonly formContainer: HTMLElement;
+    private readonly formCategoriesDiv: HTMLDivElement;
+    private readonly formCategoriesSelect: HTMLSelectElement;
+    private readonly formCategoriesOptionAngular: HTMLOptionElement;
     private formCategoriesOptionNestJS: HTMLOptionElement;
     private formCategoriesOptionJS: HTMLOptionElement;
     private formCategoriesOptionDesign: HTMLOptionElement;
@@ -23,6 +27,10 @@ export class View {
     private tagsInput: HTMLInputElement;
     private optioanFormPart: HTMLDivElement;
     private formBtn: HTMLButtonElement;
+    private nestJSInput: HTMLInputElement;
+    private JSInput: HTMLInputElement;
+    private designSelect: HTMLSelectElement;
+    private angularSelect: HTMLSelectElement;
     constructor(){
         console.log('view is ready');
         this.mainContainer = document.getElementById('mainContainer');
@@ -67,6 +75,12 @@ export class View {
         this.formBtn.innerHTML = 'Create item';
         this.formBtn.type = 'submit';
 
+        this.nestJSInput = document.createElement("input");
+        this.nestJSInput.placeholder = 'service name';
+        this.JSInput = document.createElement("input");
+        this.JSInput.placeholder = 'about';
+        this.designSelect = document.createElement('select');
+        this.angularSelect = document.createElement('select');
 
         this.titleInput = document.createElement('input');
         this.descriotionInput = document.createElement('input');
@@ -98,12 +112,81 @@ export class View {
         this.tagsInput.placeholder = "tags";
     }
 
+    clearForm(){
+        this.titleInput.value = "";
+        this.descriotionInput.value = "";
+        this.tagsInput.value = "";
+        this.JSInput.value = "";
+        this.nestJSInput.value = "";
+    }
+
+    getFormInformation(){
+        let title: string = this.titleInput.value;
+        let description: string = this.descriotionInput.value;
+        let tags: string[] = this.tagsInput.value.split(', ');
+        switch (this.formCategoriesSelect.value){
+            case FoldersCategories.JS:
+                let JSItem: Omit<ItemJS, "id"> = {
+                    about: this.JSInput.value,
+                    description: description,
+                    tags: tags,
+                    title: title,
+                    folderCategory: FoldersCategories.JS
+                }
+                return JSItem;
+            case FoldersCategories.NESTJS:
+                let nestJSItem: Omit<ItemNestJS, "id"> = {
+                    description: description,
+                    tags: tags,
+                    title: title,
+                    serviceName: this.nestJSInput.value,
+                    folderCategory: FoldersCategories.NESTJS
+                }
+                return nestJSItem;
+            case FoldersCategories.ANGULAR:
+                let angularItem: Omit<ItemAngular, "id"> = {
+                    description: description,
+                    tags: tags,
+                    title: title,
+                    source: "documentation",
+                    folderCategory: FoldersCategories.ANGULAR
+                }
+                if(this.angularSelect.value === "documentation"){
+                    return angularItem;
+                } else if(this.angularSelect.value === "medium"){
+                    angularItem.source = "medium";
+                    return angularItem;
+                } else {
+                    angularItem.source = "internet";
+                    return angularItem;
+                }
+
+            case FoldersCategories.DESIGN:
+                if(this.designSelect.value === DesignType.UX){
+                    let designItem: Omit<ItemDesign, "id"> = {
+                        description: description,
+                        tags: tags,
+                        title: title,
+                        designType: DesignType.UX,
+                        folderCategory: FoldersCategories.DESIGN
+                    }
+                    return designItem;
+                } else {
+                    let designItem: Omit<ItemDesign, "id"> = {
+                        description: description,
+                        tags: tags,
+                        title: title,
+                        designType: DesignType.UI,
+                        folderCategory: FoldersCategories.DESIGN
+                    }
+                    return designItem;
+                }
+        }
+    }
 
    generateNestJSForm(){
         this.optioanFormPart.innerHTML = ""
-        let input = document.createElement("input");
-        input.placeholder = 'service name';
-        this.optioanFormPart.append(input);
+        this.optioanFormPart.append(this.nestJSInput);
         this.optioanFormPart.append(this.formBtn)
 
    }
@@ -111,7 +194,7 @@ export class View {
     generateAngularForm(){
         this.optioanFormPart.innerHTML = ""
         let div = document.createElement('div');
-        let select = document.createElement('select');
+
         let docOption =  document.createElement('option');
         docOption.value = AngularSource.DOCUMENTATION
         docOption.innerText = AngularSource.DOCUMENTATION
@@ -126,16 +209,15 @@ export class View {
 
         this.optioanFormPart.append(div);
         this.optioanFormPart.append(this.formBtn)
-        div.append(select);
-        select.append(docOption);
-        select.append(mediumOption);
-        select.append(internetOption);
+        div.append(this.angularSelect);
+        this.angularSelect.append(docOption);
+        this.angularSelect.append(mediumOption);
+        this.angularSelect.append(internetOption);
     }
 
     generateDesignForm(){
         this.optioanFormPart.innerHTML = ""
         let div = document.createElement('div');
-        let select = document.createElement('select');
         let uxOption =  document.createElement('option');
         uxOption.value = DesignType.UX
         uxOption.innerText = DesignType.UX
@@ -146,20 +228,16 @@ export class View {
 
         this.optioanFormPart.append(div);
         this.optioanFormPart.append(this.formBtn)
-        div.append(select);
-        select.append(uiOption);
-        select.append(uxOption);
+        div.append(this.designSelect);
+        this.designSelect.append(uiOption);
+        this.designSelect.append(uxOption);
     }
 
     generateJSForm(){
         this.optioanFormPart.innerHTML = ""
-        let input = document.createElement("input");
-        input.placeholder = 'about';
-        this.optioanFormPart.append(input);
-        this.optioanFormPart.append(this.formBtn)
+        this.optioanFormPart.append(this.JSInput);
         this.optioanFormPart.append(this.formBtn)
     }
-
 
     generateFolder(folder: Folder): HTMLElement{
         let folderItem = document.createElement('div');
@@ -184,8 +262,8 @@ export class View {
         return newItem;
     }
 
-
     generateFoldersColumn(folders: Folder[]){
+        this.foldersColumn.innerHTML = "";
         folders.forEach((item) => {
             let folder = this.generateFolder(item);
             this.foldersColumn.append(folder);
@@ -237,6 +315,10 @@ export class View {
                 callback(this.currentFolderId);
             }
         })
+    }
+
+    addBtnListener(callback: () => void){
+        this.formBtn.addEventListener('click', callback)
     }
 
    getFormCategory(callback: Function){

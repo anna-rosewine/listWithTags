@@ -1,4 +1,3 @@
-import {Item} from "../models/interfaces/item.interface";
 import {ItemsClass} from "./itemsClass";
 import * as uniqid from 'uniqid';
 import {FoldersClass} from "./folderClass";
@@ -179,25 +178,29 @@ export let angularFolder: Folder = {
     id: uniqid.process(),
     title: "Angular",
     isOpen:false,
-    items: angularItems
+    items: angularItems,
+    folderType: FoldersCategories.ANGULAR
 };
 export let nestJsFolder: Folder = {
     id: uniqid.process(),
     title: "NestJS",
     isOpen:false,
-    items: nestJSItems
+    items: nestJSItems,
+    folderType: FoldersCategories.NESTJS
 };
 export let designFolder: Folder = {
     id: uniqid.process(),
     title: "Design",
     isOpen:false,
-    items: designItems
+    items: designItems,
+    folderType: FoldersCategories.DESIGN
 };
 export let jsFolder: Folder = {
     id: uniqid.process(),
     title: "JavaScript",
     isOpen:false,
-    items: javaScriptItems
+    items: javaScriptItems,
+    folderType: FoldersCategories.JS
 };
 
 folders.add(angularFolder);

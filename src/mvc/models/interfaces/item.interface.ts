@@ -7,5 +7,5 @@ export interface Item  {
     description: string,
     tags: string[],
     folderId?: string,
-    folderCategory?: FoldersCategories
+    folderCategory?: FoldersCategories,
 }
