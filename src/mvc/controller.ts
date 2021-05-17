@@ -14,14 +14,13 @@ export class Controller {
         this.model = model;
         this.view.generateFoldersColumn(this.model.folders.all());
         this.view.addFolderListener(this.renderItems);
-        this.view.addItemListener(this.renderDescription);
+        this.view.addItemListener(this.renderDescription, this.deleteItem);
         this.view.generateForm()
         this.view.getFormCategory(this.generateFullForm);
         this.view.addBtnListener(this.addNewItem);
     }
 
     generateFolders = () => {
-        console.log('added')
         this.view.generateFoldersColumn(this.model.folders.all());
         this.view.clearForm()
     }
@@ -63,6 +62,7 @@ export class Controller {
         let folder = this.model.folders.getById(folderId);
         if(folder){
             let item = folder.items.getById(itemId);
+            console.log(itemId)
             if(item){
                 this.view.generateDescriptionColumn(item.description, item.tags)
                 console.log(item.description)
@@ -72,6 +72,11 @@ export class Controller {
         } else {
             throw new Error('didnt find folder with such id')
         }
+    }
+
+    deleteItem = (folderId: string, itemId: string) => {
+        console.log('delete')
+        this.model.deleteItem(folderId, itemId, () => {this.renderItems(folderId)})
     }
 
 }

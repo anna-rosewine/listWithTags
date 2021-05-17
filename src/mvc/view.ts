@@ -120,6 +120,7 @@ export class View {
         this.nestJSInput.value = "";
     }
 
+
     getFormInformation(){
         let title: string = this.titleInput.value;
         let description: string = this.descriotionInput.value;
@@ -256,9 +257,20 @@ export class View {
         newItem.setAttribute('data-id', item.id);
         let innerTitle = document.createElement('p');
         innerTitle.classList.add('itemText')
+        let itemDelete = document.createElement('div');
+        itemDelete.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="close">
+    <path id="Path 2" d="M17.6569 17.6569L6.34316 6.34315" stroke="#000124" stroke-linecap="round"/>
+    <path id="Path 2_2" d="M17.6568 6.34315L6.34314 17.6569" stroke="#000124" stroke-linecap="round"/>
+        </g>
+        </svg>
+`
+        itemDelete.setAttribute('data-delete', item.id)
+        itemDelete.setAttribute('data-id', item.id)
         innerTitle.innerText = item.title;
         newItem.append(innerTitle);
-        this.descriptionColumn.innerHTML = ""
+        newItem.append(itemDelete);
+
         return newItem;
     }
 
@@ -307,13 +319,17 @@ export class View {
 
     addFolderListener(callback: Function){
         this.foldersColumn.addEventListener('click', (e) => {
+
             let target = (e.target as HTMLElement).closest('div');
             if(target)
+
             if(target.dataset.id){
+                console.log(target)
                 this.currentFolderId = target.dataset.id
                 console.log(this.currentFolderId);
                 callback(this.currentFolderId);
             }
+
         })
     }
 
@@ -327,12 +343,16 @@ export class View {
         })
     }
 
-    addItemListener(callback: Function) {
+    addItemListener(callback: Function, callback2: Function) {
         this.itemsColumn.addEventListener('click', (e) => {
             let target = (e.target as HTMLElement).closest('div');
             if(target){
-                console.log(target.dataset.id);
-                callback(this.currentFolderId, target.dataset.id);
+                if(target.dataset.delete && target.dataset.id){
+                    callback2(this.currentFolderId, target.dataset.id);
+                    this.descriptionColumn.innerHTML = ""
+                } else {
+                    callback(this.currentFolderId, target.dataset.id);
+                }
             }
         })
     }

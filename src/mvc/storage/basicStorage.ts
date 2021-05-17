@@ -9,4 +9,5 @@ export abstract class BasicStorage<T extends { id: string }>
     all = () => this.items;
     add = (i: T) => this.items.push(i);
     getById = (id: string): T | undefined => this.items.find((i) => i.id === id);
+    deleteById = (id: string): T[] => this.items = this.items.filter((i) => i.id !== id)
 }

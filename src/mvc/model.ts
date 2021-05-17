@@ -94,7 +94,6 @@ export class Model {
                 break;
             case FoldersCategories.DESIGN:
                 // neededFolder = this.foldersArr.getByTitle('Design')
-                console.log(neededFolder)
                 if("designType" in item){
                     console.log('needed folder 1')
                     let newDesignItem: ItemDesign = {
@@ -136,7 +135,10 @@ export class Model {
                 break;
         }
     };
-    deleteItem = (folderId: string, itemId: string) => {
-
+    deleteItem = (folderId: string, itemId: string, callback: Function) => {
+        let neededFolder = this.foldersArr.getById(folderId);
+        if(neededFolder)
+        neededFolder.items.deleteById(itemId)
+        callback();
     }
 }
