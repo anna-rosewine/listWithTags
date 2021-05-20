@@ -7,6 +7,8 @@ import {ItemJS} from "./models/interfaces/itemJS.interface";
 import {ItemNestJS} from "./models/interfaces/itemNestJS.interface";
 import {ItemAngular} from "./models/interfaces/itemAngular.interface";
 import {ItemDesign} from "./models/interfaces/itemDesign.interface";
+
+const _ = require('lodash');
 import {Items} from "./models/interfaces";
 import {Item} from "./models/interfaces/item.interface";
 
@@ -127,12 +129,19 @@ export class Model {
         let neededFolder = this.foldersArr.getById(folderId);
         if(neededFolder){
             let neededItem = neededFolder.items.getById(itemId);
-            if (neededItem) {
-                neededItem = {
+            let index: number = _.findIndex(neededFolder.items.all(), function(i: Item){return i.id === itemId})
+            // neededFolder.items.all()[0] = {
+            //     ...changes
+            // }
+
+            if(index > -1) {
+                neededFolder.items.all()[index] = {
                     ...changes
                 }
-                console.log(neededItem.title)
-                console.log(this.foldersArr.getById(folderId)?.items.getById(itemId).title)
+            }
+
+            if (neededItem) {
+                neededItem = {...changes};
                 callback()
             }
         }

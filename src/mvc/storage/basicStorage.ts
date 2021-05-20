@@ -1,5 +1,6 @@
 import {BasicStorageInterface} from "../models/basicStorageInterface";
 
+
 export abstract class BasicStorage<T extends { id: string }>
     implements BasicStorageInterface <T> {
     protected items: T[];
