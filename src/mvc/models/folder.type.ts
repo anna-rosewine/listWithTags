@@ -7,5 +7,5 @@ export type Folder = {
     title: string,
     isOpen: boolean,
     items: ItemsClass;
-    folderType?: FoldersCategories
+    folderType: FoldersCategories
 }

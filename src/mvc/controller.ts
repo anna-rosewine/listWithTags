@@ -9,15 +9,19 @@ import {ItemDesign} from "./models/interfaces/itemDesign.interface";
 export class Controller {
     private view: View;
     private model: Model;
+    private currentItemId: string;
+    private currentItem: ItemJS | ItemAngular| ItemDesign | ItemNestJS | undefined;
     constructor(view: View, model: Model){
         this.view = view;
         this.model = model;
         this.view.generateFoldersColumn(this.model.folders.all());
         this.view.addFolderListener(this.renderItems);
-        this.view.addItemListener(this.renderDescription, this.deleteItem);
+        this.view.addItemListener(this.renderDescription, this.deleteItem, this.editItem);
         this.view.generateForm()
         this.view.getFormCategory(this.generateFullForm);
-        this.view.addBtnListener(this.addNewItem);
+        this.view.addBtnListener(this.checkBtn);
+        this.currentItemId = "";
+
     }
 
     generateFolders = () => {
@@ -26,19 +30,7 @@ export class Controller {
     }
 
     generateFullForm = (e: { target: any; }) => {
-        console.log(e.target.value);
-        if (e.target.value === FoldersCategories.ANGULAR) {
-            this.view.generateAngularForm()
-        }
-        if (e.target.value === FoldersCategories.NESTJS) {
-            this.view.generateNestJSForm()
-        }
-        if (e.target.value === FoldersCategories.DESIGN) {
-            this.view.generateDesignForm()
-        }
-        if (e.target.value === FoldersCategories.JS) {
-            this.view.generateJSForm()
-        }
+        this.view.generateOptionalForm(e.target.value);
     }
 
     renderItems = (id: string) => {
@@ -48,6 +40,30 @@ export class Controller {
        } else {
            throw new Error('something went wrong: cant find such id')
        }
+    }
+
+    checkBtn = () => {
+        if(this.view.formBtn.dataset.action === 'add'){
+            this.addNewItem();
+        } else {
+            this.updateItem();
+        }
+    }
+
+    updateItem = ( ) => {
+
+        let changes:  Omit<Partial<ItemJS>, "id"> | Omit<Partial<ItemNestJS>, "id"> | Omit<Partial<ItemAngular>, "id"> | Omit<Partial<ItemDesign>, "id"> | undefined = this.view.getFormInformation();
+        if(this.currentItem){
+            switch (this.currentItem.folderCategory){
+                case  FoldersCategories.NESTJS:
+                   let updatedItem: ItemNestJS = {
+                        ...this.currentItem,
+                        ...changes
+                    }
+                    this.model.updateItem(this.view.currentFolderId, this.currentItemId, updatedItem, () => {this.renderItems(this.view.currentFolderId)});
+                    break;
+                }
+            }
     }
 
     addNewItem = () => {
@@ -77,6 +93,19 @@ export class Controller {
     deleteItem = (folderId: string, itemId: string) => {
         console.log('delete')
         this.model.deleteItem(folderId, itemId, () => {this.renderItems(folderId)})
+    }
+
+    editItem = (itemId: string) => {
+        let currentFolder = this.model.folders.getById(this.view.currentFolderId);
+        if(currentFolder && currentFolder.folderType){
+            this.view.generateOptionalForm(currentFolder.folderType, "edit");
+            this.currentItemId = itemId;
+            let updatedItem = currentFolder.items.getById(itemId);
+            if (updatedItem){
+                this.currentItem = updatedItem
+            }
+            return itemId;
+        }
     }
 
 }
